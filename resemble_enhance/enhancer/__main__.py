@@ -97,7 +97,7 @@ def main():
         if args.parallel_mode and out_path.exists():
             continue
         pbar.set_description(f"Processing {out_path}")
-        dwav, sr = torchaudio.load(path)
+        dwav, sr = torchaudio.load(str(path))
         dwav = dwav.mean(0)
         if args.denoise_only:
             hwav, sr = denoise(
@@ -118,7 +118,7 @@ def main():
                 run_dir=run_dir,
             )
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        torchaudio.save(out_path, hwav[None], sr)
+        torchaudio.save(str(out_path), hwav[None], sr)
 
     # Cool emoji effect saying the job is done
     elapsed_time = time.perf_counter() - start_time
